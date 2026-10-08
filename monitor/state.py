@@ -62,6 +62,23 @@ def stale_gap_minutes(state: dict, now: Optional[float] = None, quiet: Optional[
     return int(gap // 60) if gap > STALE_AFTER_SECONDS else None
 
 
+def due(state: dict, key: str, every_minutes: Optional[float], now: Optional[float] = None) -> bool:
+    """True if `key` should be checked this run. Shops with `every_minutes` are checked less often than the run rate.
+
+    A minute of slack absorbs timer jitter. The attempt time is recorded by the caller, success or not,
+    so a throttled shop is not hammered every run.
+    """
+    if not every_minutes:
+        return True
+    now = time.time() if now is None else now
+    last = state.get("last_checked", {}).get(key)
+    return last is None or now - last >= every_minutes * 60 - 60
+
+
+def mark_checked(state: dict, key: str, now: Optional[float] = None) -> None:
+    state.setdefault("last_checked", {})[key] = time.time() if now is None else now
+
+
 def level_alert(prev: dict, web_stock: int, level: Optional[int], price: Optional[float], max_price: Optional[float]) -> bool:
     """Webhallen: alert when a product becomes buyable, then again each time the level requirement changes.
 

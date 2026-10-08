@@ -27,12 +27,14 @@ shops:
   - name: Manatorsk
     base: https://manatorsk.com
     collections: [pokemon-elite-trainer-boxes, pokemon-collection-boxes, pokemon-booster-boxes]
+    every_minutes: 15   # throttled from GitHub's IPs, so check less often
   - name: Speltrollet
     base: https://speltrollet.se
     collections: [pokemon, pokemon-boxar, pokemon-displayer]
   - name: Dragon's Lair
     base: https://dragonslair.se
     collections: [pokemon-booster-pack, engelska-displayer]
+    every_minutes: 15   # throttled from GitHub's IPs, so check less often
 
 # Specific cards/products to watch by name (Shopify predictive search, includes sold-out listings).
 watchlist:
@@ -44,6 +46,7 @@ watchlist:
         base: https://www.alaragames.se
       - name: Manatorsk
         base: https://manatorsk.com
+        every_minutes: 15
 
 # Static product pages for other shops (JSON-LD availability). Add real URLs here.
 products:

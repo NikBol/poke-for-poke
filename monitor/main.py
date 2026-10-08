@@ -78,6 +78,10 @@ def run_webhallen(wh: dict, my_level, state: dict) -> int:
 
 def run_shop(shop: dict, since: str, state: dict) -> int:
     name = shop["name"]
+    if not st.due(state, f"shop:{name}", shop.get("every_minutes")):
+        print(f"[skip] {name}: checked less than {shop['every_minutes']} min ago")
+        return 0
+    st.mark_checked(state, f"shop:{name}")
     try:
         items = shopify.discover(shop, since=since)
     except AdapterError as e:
@@ -110,6 +114,10 @@ def run_watch(w: dict, state: dict) -> int:
     code = 0
     for shop in w["shops"]:
         fail_key = f"watch:{label}:{shop['name']}"
+        if not st.due(state, fail_key, shop.get("every_minutes")):
+            print(f"[skip] watch {label} @ {shop['name']}: checked less than {shop['every_minutes']} min ago")
+            continue
+        st.mark_checked(state, fail_key)
         try:
             items = [i for i in shopify.search(shop["base"], w["match"]) if needle in i.title.lower()]
         except AdapterError as e:

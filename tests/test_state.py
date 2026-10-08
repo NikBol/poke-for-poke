@@ -56,3 +56,13 @@ def test_overnight_gap_does_not_trigger_stale_alert():
 def test_daytime_delay_still_alerts_with_quiet_configured():
     state = {"last_run_ts": ts("2026-10-08T10:00:00"), "alerted_stale": False}
     assert st.stale_gap_minutes(state, ts("2026-10-08T10:31:00"), QUIET) == 31
+
+
+def test_due_respects_interval_with_slack():
+    s = {}
+    assert st.due(s, "k", 15, now=1000)  # never checked
+    st.mark_checked(s, "k", now=1000)
+    assert not st.due(s, "k", 15, now=1000 + 5 * 60)
+    assert not st.due(s, "k", 15, now=1000 + 10 * 60)
+    assert st.due(s, "k", 15, now=1000 + 14 * 60 + 30)  # 15 min minus 1 min slack
+    assert st.due(s, "other", None, now=1000)  # no interval means every run
