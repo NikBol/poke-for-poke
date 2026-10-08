@@ -1,6 +1,12 @@
 # Your Webhallen level: alerts say whether you can already buy or need to wait for the level to drop.
 my_level: 9
 
+# No checks (and no "monitor was delayed" alerts) during these hours.
+quiet_hours:
+  start: "02:00"
+  end: "06:00"
+  timezone: Europe/Stockholm
+
 webhallen:
   # Pokémon products released on/after this date are tracked (Prismatic Evolutions era onwards).
   since: "2025-01-01"

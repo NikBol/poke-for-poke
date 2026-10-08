@@ -137,12 +137,26 @@ def run_watch(w: dict, state: dict) -> int:
     return code
 
 
+def ping_healthcheck() -> None:
+    ping = os.environ.get("HEALTHCHECK_URL")
+    if ping:
+        try:
+            httpx.get(ping, timeout=10)
+        except httpx.HTTPError:
+            pass
+
+
 def run() -> int:
     config = yaml.safe_load(CONFIG.read_text())
+    quiet = config.get("quiet_hours")
+    if st.in_quiet(time.time(), quiet):
+        print(f"[quiet] {quiet['start']}-{quiet['end']} {quiet.get('timezone', 'UTC')}: skipping checks")
+        ping_healthcheck()  # the dead-man's switch should not fire overnight
+        return 0
     state = st.load(STATE)
     errors = 0
 
-    gap = st.stale_gap_minutes(state)
+    gap = st.stale_gap_minutes(state, quiet=quiet)
     if gap is not None:
         notify.send("Pokémon monitor was delayed", f"No check ran for ~{gap} min. Stock changes in that window may have been missed.")
         state["alerted_stale"] = True
@@ -184,12 +198,7 @@ def run() -> int:
     state["alerted_stale"] = False
     st.save(STATE, state)
 
-    ping = os.environ.get("HEALTHCHECK_URL")
-    if ping:
-        try:
-            httpx.get(ping, timeout=10)
-        except httpx.HTTPError:
-            pass
+    ping_healthcheck()
     return 0
 
 

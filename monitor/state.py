@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import time
+from datetime import datetime, time as dtime, timedelta
 from pathlib import Path
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 STALE_AFTER_SECONDS = 30 * 60
 
@@ -19,13 +21,44 @@ def save(path: Path, state: dict) -> None:
     path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
 
 
-def stale_gap_minutes(state: dict, now: Optional[float] = None) -> Optional[int]:
-    """Minutes since the previous run if it exceeds the threshold and we haven't alerted yet, else None."""
+def _windows(start_ts: float, end_ts: float, quiet: dict):
+    """Yield (start, end) timestamps of each quiet window that could overlap [start_ts, end_ts]."""
+    tz = ZoneInfo(quiet.get("timezone", "UTC"))
+    qs = dtime.fromisoformat(quiet["start"])
+    qe = dtime.fromisoformat(quiet["end"])
+    day = datetime.fromtimestamp(start_ts, tz).date() - timedelta(days=1)
+    last_day = datetime.fromtimestamp(end_ts, tz).date()
+    while day <= last_day:
+        w_start = datetime.combine(day, qs, tzinfo=tz)
+        w_end = datetime.combine(day, qe, tzinfo=tz)
+        if w_end <= w_start:  # window crosses midnight
+            w_end += timedelta(days=1)
+        yield w_start.timestamp(), w_end.timestamp()
+        day += timedelta(days=1)
+
+
+def in_quiet(now: float, quiet: Optional[dict]) -> bool:
+    if not quiet:
+        return False
+    return any(a <= now < b for a, b in _windows(now, now, quiet))
+
+
+def quiet_overlap(start_ts: float, end_ts: float, quiet: Optional[dict]) -> float:
+    if not quiet:
+        return 0.0
+    return sum(max(0.0, min(end_ts, b) - max(start_ts, a)) for a, b in _windows(start_ts, end_ts, quiet))
+
+
+def stale_gap_minutes(state: dict, now: Optional[float] = None, quiet: Optional[dict] = None) -> Optional[int]:
+    """Minutes since the previous run if it exceeds the threshold and we haven't alerted yet, else None.
+
+    Quiet hours (when no checks are meant to run) don't count towards the gap.
+    """
     now = time.time() if now is None else now
     last = state.get("last_run_ts")
     if last is None or state.get("alerted_stale"):
         return None
-    gap = now - last
+    gap = now - last - quiet_overlap(last, now, quiet)
     return int(gap // 60) if gap > STALE_AFTER_SECONDS else None
 
 

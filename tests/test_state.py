@@ -24,3 +24,35 @@ def test_stale_gap_alerts_once():
     assert st.stale_gap_minutes({"last_run_ts": now - 31 * 60, "alerted_stale": True}, now) is None
     assert st.stale_gap_minutes({"last_run_ts": now - 6 * 60, "alerted_stale": False}, now) is None
     assert st.stale_gap_minutes({"last_run_ts": None, "alerted_stale": False}, now) is None
+
+
+QUIET = {"start": "02:00", "end": "06:00", "timezone": "Europe/Stockholm"}
+
+
+def ts(s):
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+
+    return datetime.fromisoformat(s).replace(tzinfo=ZoneInfo("Europe/Stockholm")).timestamp()
+
+
+def test_in_quiet_boundaries():
+    assert st.in_quiet(ts("2026-10-08T02:00:00"), QUIET)
+    assert st.in_quiet(ts("2026-10-08T05:59:00"), QUIET)
+    assert not st.in_quiet(ts("2026-10-08T06:00:00"), QUIET)
+    assert not st.in_quiet(ts("2026-10-08T01:59:00"), QUIET)
+    assert not st.in_quiet(ts("2026-10-08T12:00:00"), QUIET)
+
+
+def test_overnight_gap_does_not_trigger_stale_alert():
+    state = {"last_run_ts": ts("2026-10-08T01:55:00"), "alerted_stale": False}
+    assert st.stale_gap_minutes(state, ts("2026-10-08T06:00:00"), QUIET) is None
+    # a real delay after the quiet window still alerts: 2h of quiet excluded from a 5h gap
+    state = {"last_run_ts": ts("2026-10-08T01:55:00"), "alerted_stale": False}
+    gap = st.stale_gap_minutes(state, ts("2026-10-08T06:40:00"), QUIET)
+    assert gap == 45  # 4h45m total minus 4h quiet
+
+
+def test_daytime_delay_still_alerts_with_quiet_configured():
+    state = {"last_run_ts": ts("2026-10-08T10:00:00"), "alerted_stale": False}
+    assert st.stale_gap_minutes(state, ts("2026-10-08T10:31:00"), QUIET) == 31
