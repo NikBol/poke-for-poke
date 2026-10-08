@@ -1,0 +1,21 @@
+# Your Webhallen level: alerts say whether you can already buy or need to wait for the level to drop.
+my_level: 9
+
+webhallen:
+  # Pokémon products released on/after this date are tracked (Prismatic Evolutions era onwards).
+  since: "2025-01-01"
+  queries:
+    - pokemon elite trainer box
+    - pokemon booster bundle
+    - pokemon 30th celebration
+    - pokemon collection
+    - pokemon ultra premium
+  # max_price: 1500   # SEK, optional
+
+# Static product pages for other shops (JSON-LD availability). Add real URLs here.
+products:
+  # - name: "Some shop – <set> ETB"
+  #   retailer: jsonld
+  #   url: "https://example.com/product/123"
+  #   max_price: 600
+  []

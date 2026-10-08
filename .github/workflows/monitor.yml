@@ -1,0 +1,50 @@
+name: monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+# One run at a time so state.json commits never race.
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+
+      # State lives on its own branch so main stays clean.
+      - name: Restore state
+        run: |
+          git fetch origin state || true
+          git show origin/state:state.json > state.json 2>/dev/null || true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Check stock
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
+        run: python -m monitor.main
+
+      - name: Save state
+        run: |
+          git config user.name "stock-monitor"
+          git config user.email "stock-monitor@users.noreply.github.com"
+          git checkout --orphan state-tmp
+          git rm -rf --cached . >/dev/null 2>&1 || true
+          git add -f state.json
+          git commit -m "state $(date -u +%FT%TZ)"
+          git push -f origin state-tmp:state
