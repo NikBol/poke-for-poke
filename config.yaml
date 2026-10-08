@@ -36,6 +36,8 @@ watchlist:
     shops:
       - name: Alara Games
         base: https://www.alaragames.se
+      - name: Manatorsk
+        base: https://manatorsk.com
 
 # Static product pages for other shops (JSON-LD availability). Add real URLs here.
 products:
