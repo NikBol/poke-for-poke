@@ -101,6 +101,42 @@ def run_shop(shop: dict, since: str, state: dict) -> int:
     return 0
 
 
+def run_watch(w: dict, state: dict) -> int:
+    """Watch for a specific card/product by name across shops: alert on new listings and on restocks."""
+    label = w["name"]
+    needle = w["match"].lower()
+    baseline_key = f"watch:{label}"
+    baseline = baseline_key not in state.setdefault("shops_seen", [])
+    code = 0
+    for shop in w["shops"]:
+        fail_key = f"watch:{label}:{shop['name']}"
+        try:
+            items = [i for i in shopify.search(shop["base"], w["match"]) if needle in i.title.lower()]
+        except AdapterError as e:
+            print(f"[error] watch {label} @ {shop['name']}: {e}")
+            _failed(state, fail_key, f"{label} @ {shop['name']}: {e}")
+            code = 1
+            continue
+        state.setdefault("fail_counts", {})[fail_key] = 0
+        for it in items:
+            key = f"watch:{shop['name']}:{it.id}"
+            known = key in state["products"]
+            prev = state["products"].get(key, {})
+            now = "in_stock" if it.available else "out_of_stock"
+            print(f"[ok] watch {shop['name']}: {it.title} {now} price={it.price}")
+            price = f"{it.price:g} kr" if it.price is not None else "price unknown"
+            if not baseline:
+                if st.should_alert(prev.get("stock"), now, it.price, w.get("max_price")):
+                    notify.send(f"{shop['name']}: {it.title} IN STOCK", f"{price}", click_url=it.url, priority="urgent")
+                elif not known and w.get("notify_new_listing", True):
+                    notify.send(f"{shop['name']}: new listing {it.title}", f"Not in stock yet ({price})", click_url=it.url)
+            state["products"][key] = {"name": it.title, "stock": now, "price": it.price, "error": None}
+    if baseline and code == 0:
+        state["shops_seen"].append(baseline_key)
+        print(f"[baseline] watch {label}")
+    return code
+
+
 def run() -> int:
     config = yaml.safe_load(CONFIG.read_text())
     state = st.load(STATE)
@@ -139,6 +175,9 @@ def run() -> int:
 
     for shop in config.get("shops") or []:
         errors += run_shop(shop, config.get("shop_since", "2025-01-01"), state)
+
+    for w in config.get("watchlist") or []:
+        errors += run_watch(w, state)
 
     # A run that finished means the monitor is alive again; re-arm the stale alert.
     state["last_run_ts"] = time.time()

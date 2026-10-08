@@ -101,3 +101,40 @@ def discover(shop: dict, since: str = "2025-01-01") -> list[ShopItem]:
                 found.setdefault(it.id, it)
             time.sleep(0.5)
     return list(found.values())
+
+
+def search(base: str, query: str, limit: int = 10) -> list[ShopItem]:
+    """Search a Shopify shop (including sold-out products) for a card/product name via the predictive search API."""
+    base = base.rstrip("/")
+    params = {
+        "q": query,
+        "resources[type]": "product",
+        "resources[limit]": limit,
+        "resources[options][unavailable_products]": "last",
+    }
+    try:
+        r = httpx.get(f"{base}/search/suggest.json", params=params, headers=HEADERS, timeout=20, follow_redirects=True)
+    except httpx.HTTPError as e:
+        raise AdapterError(f"{base} request failed: {e}") from e
+    if r.status_code in (403, 429, 503):
+        raise AdapterError(f"{base} blocked or rate limited (HTTP {r.status_code})")
+    if r.status_code != 200:
+        raise AdapterError(f"{base} HTTP {r.status_code} for search")
+    try:
+        products = r.json()["resources"]["results"]["products"]
+    except (ValueError, KeyError) as e:
+        raise AdapterError(f"{base} returned unexpected search JSON") from e
+    items = []
+    for p in products:
+        price = p.get("price")
+        items.append(
+            ShopItem(
+                shop=base,
+                id=p["id"],
+                title=p["title"],
+                url=base + p["url"].split("?")[0],
+                price=float(price) if price not in (None, "") else None,
+                available=bool(p.get("available")),
+            )
+        )
+    return items

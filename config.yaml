@@ -28,6 +28,15 @@ shops:
     base: https://dragonslair.se
     collections: [pokemon-booster-pack, engelska-displayer]
 
+# Specific cards/products to watch by name (Shopify predictive search, includes sold-out listings).
+watchlist:
+  - name: Muxus, Goblin Grandee
+    match: "muxus, goblin grandee"
+    notify_new_listing: true   # also push when a new printing is listed (even if not in stock yet)
+    shops:
+      - name: Alara Games
+        base: https://www.alaragames.se
+
 # Static product pages for other shops (JSON-LD availability). Add real URLs here.
 products:
   # - name: "Some shop – <set> ETB"

@@ -72,3 +72,8 @@ def test_old_sets_and_non_cards_filtered_new_sets_kept():
     assert not w("Pokemon Funism Palmsize Wonders Vol 1 Mystery box Display (12st)")
     assert not w("Pokemon Center Tohoku Special Box")
     assert not w("Pokemon Tcg 30th Celebration Booster Box (20 boosters) (Japansk) (m6a)")
+
+
+def test_watch_alerts_on_restock_and_new_listing_logic():
+    assert st.should_alert("out_of_stock", "in_stock", 64.1, None)
+    assert not st.should_alert("out_of_stock", "out_of_stock", 64.1, None)
