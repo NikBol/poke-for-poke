@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import re
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -9,6 +8,7 @@ from urllib.parse import quote
 
 import httpx
 
+from ..filters import wanted_title
 from .base import AdapterError
 
 API = "https://www.webhallen.com/api"
@@ -19,15 +19,6 @@ HEADERS = {
     ),
     "Accept": "application/json",
 }
-
-# Things worth alerting on: ETBs, multi-pack bundles/boxes, and anything 30th Celebration.
-WANTED = re.compile(
-    r"elite trainer|\betb\b|booster bundle|bundle|build & battle|collection|ultra[- ]premium|"
-    r"booster box|display|tin\b|\bbox\b",
-    re.I,
-)
-# Accessories are skipped unless they are 30th Celebration items.
-ACCESSORY = re.compile(r"sleeve|binder|playmat|portfolio|deck box|plush|album|figure|pin\b|mugg|t-shirt", re.I)
 
 
 @dataclass
@@ -51,10 +42,7 @@ def wanted(name: str, category_tree: str, release_ts: Optional[int], since_ts: i
         return False
     if release_ts is not None and release_ts < since_ts:
         return False
-    is_30th = "30th" in name.lower()
-    if ACCESSORY.search(name) and not is_30th:
-        return False
-    return is_30th or bool(WANTED.search(name))
+    return wanted_title(name)
 
 
 def parse_search(data: dict, since_ts: int) -> list[WebhallenItem]:

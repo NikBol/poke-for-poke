@@ -12,6 +12,22 @@ webhallen:
     - pokemon ultra premium
   # max_price: 1500   # SEK, optional
 
+# Shopify shops: stock comes from /collections/<handle>/products.json. Only these collections are scanned.
+shop_since: "2025-01-01"
+shops:
+  - name: Alara Games
+    base: https://www.alaragames.se
+    collections: [filter-all-pokemon]
+  - name: Manatorsk
+    base: https://manatorsk.com
+    collections: [pokemon-elite-trainer-boxes, pokemon-collection-boxes, pokemon-booster-boxes]
+  - name: Speltrollet
+    base: https://speltrollet.se
+    collections: [pokemon, pokemon-boxar, pokemon-displayer]
+  - name: Dragon's Lair
+    base: https://dragonslair.se
+    collections: [pokemon-booster-pack, engelska-displayer]
+
 # Static product pages for other shops (JSON-LD availability). Add real URLs here.
 products:
   # - name: "Some shop – <set> ETB"

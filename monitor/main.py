@@ -9,12 +9,25 @@ import httpx
 import yaml
 
 from . import notify, state as st
-from .adapters import ADAPTERS, webhallen
+from .adapters import ADAPTERS, shopify, webhallen
 from .adapters.base import AdapterError
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config.yaml"
 STATE = Path(os.environ.get("STATE_FILE", ROOT / "state.json"))
+
+
+FAILS_BEFORE_ALERT = 3
+
+
+def _failed(state: dict, key: str, msg: str) -> bool:
+    """Count consecutive failures; push one alert when it reaches the threshold (transient 429s stay quiet)."""
+    counts = state.setdefault("fail_counts", {})
+    counts[key] = counts.get(key, 0) + 1
+    if counts[key] == FAILS_BEFORE_ALERT:
+        notify.send("Monitor adapter problem", f"{msg} (failed {FAILS_BEFORE_ALERT} runs in a row)", priority="low")
+        return True
+    return False
 
 
 def webhallen_message(it, my_level):
@@ -45,11 +58,9 @@ def run_webhallen(wh: dict, my_level, state: dict) -> int:
         items = webhallen.discover(wh["queries"], since=wh.get("since", "2025-01-01"))
     except AdapterError as e:
         print(f"[error] webhallen: {e}")
-        if not state.get("webhallen_error"):
-            notify.send("Monitor adapter problem", f"webhallen: {e}", priority="low")
-        state["webhallen_error"] = str(e)
+        _failed(state, "webhallen", f"webhallen: {e}")
         return 1
-    state["webhallen_error"] = None
+    state.setdefault("fail_counts", {})["webhallen"] = 0
     for it in items:
         prev = state["products"].get(it.key, {})
         print(f"[ok] {it.name}: web_stock={it.web_stock} min_level={it.min_level} price={it.price}")
@@ -62,6 +73,31 @@ def run_webhallen(wh: dict, my_level, state: dict) -> int:
             "level": it.min_level if it.web_stock > 0 else None,
             "price": it.price,
         }
+    return 0
+
+
+def run_shop(shop: dict, since: str, state: dict) -> int:
+    name = shop["name"]
+    try:
+        items = shopify.discover(shop, since=since)
+    except AdapterError as e:
+        print(f"[error] {name}: {e}")
+        _failed(state, f"shop:{name}", f"{name}: {e}")
+        return 1
+    state.setdefault("fail_counts", {})[f"shop:{name}"] = 0
+    # First time we see a shop, only record what is in stock; otherwise every item already on the shelf would alert.
+    baseline = name not in state.setdefault("shops_seen", [])
+    for it in items:
+        prev = state["products"].get(it.key, {})
+        print(f"[ok] {name}: {it.title} available={it.available} price={it.price}")
+        now = "in_stock" if it.available else "out_of_stock"
+        if not baseline and st.should_alert(prev.get("stock"), now, it.price, shop.get("max_price")):
+            price = f"{it.price:g} kr" if it.price is not None else "price unknown"
+            notify.send(f"{name}: {it.title} in stock", f"{it.title} is available for {price}", click_url=it.url, priority="high")
+        state["products"][it.key] = {"name": it.title, "stock": now, "price": it.price, "error": None}
+    if baseline:
+        state["shops_seen"].append(name)
+        print(f"[baseline] {name}: recorded {len(items)} products without alerting")
     return 0
 
 
@@ -100,6 +136,9 @@ def run() -> int:
     wh = config.get("webhallen")
     if wh:
         errors += run_webhallen(wh, config.get("my_level"), state)
+
+    for shop in config.get("shops") or []:
+        errors += run_shop(shop, config.get("shop_since", "2025-01-01"), state)
 
     # A run that finished means the monitor is alive again; re-arm the stale alert.
     state["last_run_ts"] = time.time()

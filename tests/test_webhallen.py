@@ -56,3 +56,19 @@ def test_no_alert_when_out_of_stock_and_realert_after_restock():
 
 def test_price_cap_blocks_alert():
     assert not st.level_alert({}, 5, 26, 2000, 1500)
+
+
+def test_old_sets_and_non_cards_filtered_new_sets_kept():
+    from monitor.filters import wanted_title as w
+
+    assert w("Pokémon TCG - Scarlet & Violet 10 Destined Rivals Booster Display (36 Booster)")
+    assert w("Pokemon Scarlet & Violet 8.5: Prismatic Evolutions Super Premium Collection")
+    assert w("Pokemon Tcg Scarlet Violet 9 Journey Together Booster Display 36 Booster")
+    assert w("Pokémon TCG - Phantasmal Flames Booster Display (36 Booster)")
+    assert not w("Pokémon TCG - Scarlet & Violet 7: Stellar Crown Booster Display (36 Booster)")
+    assert not w("Pokémon TCG - Scarlet & Violet 1 Booster Display (36 Booster)")
+    assert not w("Pokémon TCG - Scarlet & Violet 8 Surging Sparks Booster Display (36 Booster)")
+    assert not w("Pokémon TCG - Sword & Shield Brilliant Stars Booster Display")
+    assert not w("Pokemon Funism Palmsize Wonders Vol 1 Mystery box Display (12st)")
+    assert not w("Pokemon Center Tohoku Special Box")
+    assert not w("Pokemon Tcg 30th Celebration Booster Box (20 boosters) (Japansk) (m6a)")
