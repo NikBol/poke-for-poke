@@ -77,3 +77,20 @@ def test_old_sets_and_non_cards_filtered_new_sets_kept():
 def test_watch_alerts_on_restock_and_new_listing_logic():
     assert st.should_alert("out_of_stock", "in_stock", 64.1, None)
     assert not st.should_alert("out_of_stock", "out_of_stock", 64.1, None)
+
+
+def test_shopify_falls_back_to_search_when_collections_blocked(monkeypatch):
+    from monitor.adapters import shopify
+    from monitor.adapters.base import AdapterError
+
+    def blocked(*a, **k):
+        raise AdapterError("blocked")
+
+    item = shopify.ShopItem("https://x.se", 7, "Pokemon Elite Trainer Box Pitch Black", "https://x.se/p", 895.0, True)
+    junk = shopify.ShopItem("https://x.se", 8, "Pokemon Sleeves", "https://x.se/q", 99.0, True)
+    monkeypatch.setattr(shopify, "_fetch_collection", blocked)
+    monkeypatch.setattr(shopify, "search", lambda base, q, limit=10: [item, junk])
+    monkeypatch.setattr(shopify.time, "sleep", lambda s: None)
+    out = shopify.discover({"name": "X", "base": "https://x.se", "collections": ["c"], "queries": ["q1", "q2"]})
+    assert [i.id for i in out] == [7]
+    assert out[0].key == "X:7"

@@ -83,8 +83,30 @@ def _fetch_collection(client: httpx.Client, base: str, handle: str) -> list[dict
     return out
 
 
+DEFAULT_QUERIES = [
+    "pokemon elite trainer box",
+    "pokemon booster bundle",
+    "pokemon 30th celebration",
+    "pokemon booster display",
+    "pokemon premium collection",
+    "pokemon tin",
+]
+
+
 def discover(shop: dict, since: str = "2025-01-01") -> list[ShopItem]:
-    """Fetch the configured collections of a Shopify shop and keep wanted, recent Pokémon products."""
+    """Fetch wanted Pokémon products of a Shopify shop.
+
+    Prefers the configured collections (full lists). Some shops block those feeds from datacenter IPs
+    (e.g. GitHub Actions), so on a block we fall back to the predictive search API, which still works.
+    """
+    try:
+        return discover_by_collections(shop, since)
+    except AdapterError as e:
+        print(f"[fallback] {shop['name']}: collections failed ({e}); using search")
+        return discover_by_search(shop)
+
+
+def discover_by_collections(shop: dict, since: str) -> list[ShopItem]:
     since_ts = datetime.fromisoformat(since).replace(tzinfo=timezone.utc).timestamp()
     base = shop["base"].rstrip("/")
     found: dict[int, ShopItem] = {}
@@ -94,6 +116,18 @@ def discover(shop: dict, since: str = "2025-01-01") -> list[ShopItem]:
             for it in parse_products(shop["name"], base, products, since_ts, shop.get("allow_non_english", False)):
                 found.setdefault(it.id, it)
             time.sleep(0.5)
+    return list(found.values())
+
+
+def discover_by_search(shop: dict) -> list[ShopItem]:
+    base = shop["base"].rstrip("/")
+    found: dict[int, ShopItem] = {}
+    for q in shop.get("queries", DEFAULT_QUERIES):
+        for it in search(base, q, limit=10):
+            if "pok" in it.title.lower() and wanted_title(it.title, shop.get("allow_non_english", False)):
+                it.shop = shop["name"]  # same state keys as the collection path
+                found.setdefault(it.id, it)
+        time.sleep(0.7)
     return list(found.values())
 
 

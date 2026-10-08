@@ -10,7 +10,7 @@ WANTED = re.compile(
 )
 # Accessories are skipped unless they are 30th Celebration items.
 ACCESSORY = re.compile(
-    r"sleeve|binder|playmat|portfolio|deck box|plush|album|figur|pin\b|mugg|t-shirt|squishmallow|polaroid|lego",
+    r"sleeve|binder|playmat|portfolio|deck box|plush|album|figur|pin\b|mugg|t-shirt|squishmallow|polaroid|lego|pussel|puzzle|storage",
     re.I,
 )
 # Non-English printings are skipped by default.
@@ -29,7 +29,8 @@ OLD_SETS = re.compile(
     re.I,
 )
 # Collectibles that are not cards.
-NOT_CARDS = re.compile(r"funism|mystery box|blind box|pokemon center|pok[eé]mon center|special box|palmsize|peekring", re.I)
+NOT_CARDS = re.compile(r"funism|mystery box|blind box|pokemon center|pok[eé]mon center|special box|palmsize|peekring|"
+    r"ticket|prerelease|pre-release|acrylic|alcove|ultra pro|\bcase\b|challenge", re.I)
 
 
 def wanted_title(name: str, allow_non_english: bool = False) -> bool:
