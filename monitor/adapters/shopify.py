@@ -7,6 +7,7 @@ from typing import Optional
 
 import httpx
 
+from .. import http
 from ..filters import wanted_title
 from .base import AdapterError
 
@@ -70,14 +71,7 @@ def parse_products(shop: str, base: str, products: list[dict], since_ts: float, 
 def _fetch_collection(client: httpx.Client, base: str, handle: str) -> list[dict]:
     out: list[dict] = []
     for page in range(1, 6):
-        try:
-            r = client.get(f"{base}/collections/{handle}/products.json", params={"limit": 250, "page": page}, timeout=20)
-        except httpx.HTTPError as e:
-            raise AdapterError(f"{base} request failed: {e}") from e
-        if r.status_code in (403, 429, 503):
-            raise AdapterError(f"{base} blocked or rate limited (HTTP {r.status_code})")
-        if r.status_code != 200:
-            raise AdapterError(f"{base} HTTP {r.status_code} for collection {handle}")
+        r = http.get(client, f"{base}/collections/{handle}/products.json", f"{base} collection {handle}", {"limit": 250, "page": page})
         try:
             batch = r.json().get("products", [])
         except ValueError as e:
@@ -112,14 +106,8 @@ def search(base: str, query: str, limit: int = 10) -> list[ShopItem]:
         "resources[limit]": limit,
         "resources[options][unavailable_products]": "last",
     }
-    try:
-        r = httpx.get(f"{base}/search/suggest.json", params=params, headers=HEADERS, timeout=20, follow_redirects=True)
-    except httpx.HTTPError as e:
-        raise AdapterError(f"{base} request failed: {e}") from e
-    if r.status_code in (403, 429, 503):
-        raise AdapterError(f"{base} blocked or rate limited (HTTP {r.status_code})")
-    if r.status_code != 200:
-        raise AdapterError(f"{base} HTTP {r.status_code} for search")
+    with httpx.Client(headers=HEADERS, follow_redirects=True) as client:
+        r = http.get(client, f"{base}/search/suggest.json", f"{base} search", params)
     try:
         products = r.json()["resources"]["results"]["products"]
     except (ValueError, KeyError) as e:
