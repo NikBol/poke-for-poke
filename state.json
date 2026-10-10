@@ -1,0 +1,523 @@
+{
+  "alerted_stale": false,
+  "fail_counts": {
+    "shop:Alara Games": 0,
+    "shop:Dragon's Lair": 0,
+    "shop:Manatorsk": 0,
+    "shop:Speltrollet": 0,
+    "watch:Muxus, Goblin Grandee:Alara Games": 0,
+    "watch:Muxus, Goblin Grandee:Manatorsk": 0,
+    "webhallen": 0
+  },
+  "last_checked": {
+    "shop:Alara Games": 1791676535.2339947,
+    "shop:Dragon's Lair": 1791676582.856143,
+    "shop:Manatorsk": 1791676288.4831583,
+    "shop:Speltrollet": 1791676536.261606,
+    "watch:Muxus, Goblin Grandee:Alara Games": 1791676584.5729024,
+    "watch:Muxus, Goblin Grandee:Manatorsk": 1791675761.855348
+  },
+  "last_run_ts": 1791676584.775028,
+  "products": {
+    "Alara Games:15753162457432": {
+      "error": null,
+      "name": "Pokemon: Mega Zygarde ex Premium Collection Box\u202f (MAX 2st/kund)",
+      "price": 649.0,
+      "stock": "out_of_stock"
+    },
+    "Alara Games:15867887518040": {
+      "error": null,
+      "name": "Pok\u00e9mon: Lumiose City Mini Tin (MAX 5st per kund)",
+      "price": 179.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15553861845340": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Classic Box",
+      "price": 5295.0,
+      "stock": "in_stock"
+    },
+    "Dragon's Lair:15554324758876": {
+      "error": null,
+      "name": "Pokemon Tcg Scarlet Violet 9 Journey Together Booster Display 36 Booster Pokemon",
+      "price": 2995.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554336031068": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Scarlet & Violet 10 Destined Rivals Booster Display (36 Booster)",
+      "price": 4795.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554365194588": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Scarlet & Violet 9 Journey Together Enhanced Booster Display (36 Booster)",
+      "price": 2995.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554435940700": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Mega Evolution Booster Display (36 Booster)",
+      "price": 2299.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554436333916": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Mega Evolution Enhanced Booster Display (36 Booster)",
+      "price": 2799.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554455667036": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Phantasmal Flames Booster Display (36 Booster)",
+      "price": 2299.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15554559967580": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Ascended Heroes Bundle",
+      "price": 1195.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15571361136988": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG - Mega Zygarde ex Premium Collection",
+      "price": 749.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15631282405724": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Mega Evolution - Chaos Rising Booster Display (36 Booster) Max 1st per kund",
+      "price": 2295.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15631285911900": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Mega Evolution - Chaos Rising Booster Bundle",
+      "price": 579.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15668627046748": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Mega Evolution - Pitch Black Booster Display (36 Booster) Max 1st per kund",
+      "price": 2495.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15673205522780": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Mega Evolution - Pitch Black Booster Bundle",
+      "price": 599.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15702154117468": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: First Partner Illustration Collection - Series 2 (max 1 per person)",
+      "price": 599.0,
+      "stock": "in_stock"
+    },
+    "Dragon's Lair:15726490943836": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Summer Tin 2026 - Mega Clefable EX (max 1/kund)",
+      "price": 425.0,
+      "stock": "in_stock"
+    },
+    "Dragon's Lair:15726498021724": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Summer Tin 2026 - Mega Gengar EX (max 1/kund)",
+      "price": 495.0,
+      "stock": "in_stock"
+    },
+    "Dragon's Lair:15781226807644": {
+      "error": null,
+      "name": "Pokemon TCG Battle Partners Booster Box (sv9) (30 boosters)(Japan)",
+      "price": 1049.0,
+      "stock": "in_stock"
+    },
+    "Dragon's Lair:15799701700956": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Poster Collection",
+      "price": 395.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15799728734556": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Elite Trainer Box - Max 1/kund",
+      "price": 995.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15799787356508": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Pok\u00e9mon ex Box Sylveon  - Max 1/kund",
+      "price": 475.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15799791092060": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Pok\u00e9mon ex Box Greninja - Max 1/kund",
+      "price": 475.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15799802560860": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Tin Sylveon - Max 1 /kund",
+      "price": 475.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15799806263644": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Tin Greninja - Max 1 /kund",
+      "price": 475.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15800149737820": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: 30th Celebration Pok\u00e9mon Binder Collection - F\u00f6rsenad",
+      "price": 695.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15807832129884": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Mega Evolution - Pitch Black Build & Battle",
+      "price": 449.0,
+      "stock": "out_of_stock"
+    },
+    "Dragon's Lair:15811325919580": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Lumiose City Mini Tin (Max 5 per kund)",
+      "price": 165.0,
+      "stock": "in_stock"
+    },
+    "Manatorsk:10759569539410": {
+      "error": null,
+      "name": "Pok\u00e9mon - Elite Trainer Box - Mega Evolution 4.0: Chaos Rising (Max 1st per hush\u00e5ll)",
+      "price": 895.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:10891567038802": {
+      "error": null,
+      "name": "Pok\u00e9mon - Mega Evolution - First Partner Illustration Collection Series 2",
+      "price": 495.0,
+      "stock": "in_stock"
+    },
+    "Manatorsk:10891869978962": {
+      "error": null,
+      "name": "Pok\u00e9mon - Elite Trainer Box - Mega Evolution 5.0: Pitch Black (Max 1st per hush\u00e5ll)",
+      "price": 895.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11035321237842": {
+      "error": null,
+      "name": "Pok\u00e9mon - Mega Evolution - First Partner Illustration Collection Series 3",
+      "price": 495.0,
+      "stock": "in_stock"
+    },
+    "Manatorsk:11060267352402": {
+      "error": null,
+      "name": "Pok\u00e9mon - Elite Trainer Box - 30th Celebration (Max 1st per kund)",
+      "price": 1095.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11060271022418": {
+      "error": null,
+      "name": "Pok\u00e9mon - 30th Celebration EX Box: Sylveon (Max 1st per kund)",
+      "price": 495.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11060275413330": {
+      "error": null,
+      "name": "Pok\u00e9mon - 30th Celebration EX Box: Greninja (Max 1st per kund)",
+      "price": 495.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11060276658514": {
+      "error": null,
+      "name": "Pok\u00e9mon - EX Tin Box - 30th Celebration: Greninja (Max 1st per kund)",
+      "price": 495.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11060278231378": {
+      "error": null,
+      "name": "Pok\u00e9mon - 30th Celebration - Poster Collection (Max 1st per kund)",
+      "price": 450.0,
+      "stock": "out_of_stock"
+    },
+    "Manatorsk:11060284752210": {
+      "error": null,
+      "name": "Pok\u00e9mon - 2-Pack Blister - 30th Celebration - Eevee (Max 1st per kund)",
+      "price": 250.0,
+      "stock": "out_of_stock"
+    },
+    "Speltrollet:14959757918534": {
+      "error": null,
+      "name": "Pokemon Scarlet & Violet 10: Destined Rivals - Booster Box Display",
+      "price": 4190.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15522820817222": {
+      "error": null,
+      "name": "Pokemon Mega Zygarde ex Premium Collection",
+      "price": 699.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15600120922438": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Moonlit Gift Tin",
+      "price": 349.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15658264559942": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Lumiose City Mini Tin Display",
+      "price": 1390.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15658267672902": {
+      "error": null,
+      "name": "Pok\u00e9mon TCG: Lumiose City Mini Tin (1st)",
+      "price": 169.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15658269868358": {
+      "error": null,
+      "name": "Pokemon Mega Evolution: First Partner Illustration Collection Series 2",
+      "price": 499.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15658291495238": {
+      "error": null,
+      "name": "Pokemon Mega Evolution: First Partner Illustration Collection Series 3",
+      "price": 499.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15658297786694": {
+      "error": null,
+      "name": "Pokemon Mega Greninja EX Premium Collection (8 boosters)",
+      "price": 699.0,
+      "stock": "in_stock"
+    },
+    "Speltrollet:15767968940358": {
+      "error": null,
+      "name": "Pokemon \u00d7 Polaroid: Polaroid Now Generation 3 Poke Ball Edition + 30th Celebration Elite Trainer Box",
+      "price": 2290.0,
+      "stock": "in_stock"
+    },
+    "watch:Alara Games:10030090584408": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee [The List]",
+      "price": 69.4,
+      "stock": "out_of_stock"
+    },
+    "watch:Alara Games:5467368849575": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee [Jumpstart]",
+      "price": 60.7,
+      "stock": "out_of_stock"
+    },
+    "watch:Alara Games:7483040137416": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee [Jumpstart 2022]",
+      "price": 77.3,
+      "stock": "out_of_stock"
+    },
+    "watch:Alara Games:8672480854360": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee [Secret Lair Drop Series]",
+      "price": 435.4,
+      "stock": "out_of_stock"
+    },
+    "watch:Alara Games:8672481050968": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee (Rainbow Foil) [Secret Lair Drop Series]",
+      "price": 722.0,
+      "stock": "out_of_stock"
+    },
+    "watch:Manatorsk:4918643884110": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee",
+      "price": 177.0,
+      "stock": "out_of_stock"
+    },
+    "watch:Manatorsk:8023655579939": {
+      "error": null,
+      "name": "Muxus, Goblin Grandee",
+      "price": 252.0,
+      "stock": "out_of_stock"
+    },
+    "webhallen:377246": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Scarlet & Violet 8.5: Prismatic Evolutions Super Premium Collection",
+      "price": 2499.0
+    },
+    "webhallen:377250": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Scarlet & Violet 10: Destined Rivals Elite Trainer Box",
+      "price": 999.0
+    },
+    "webhallen:396744": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Box First Partner Collection",
+      "price": 349.0
+    },
+    "webhallen:396785": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon SV10: Destined Rivals Display (36 boosters)",
+      "price": 3499.0
+    },
+    "webhallen:398331": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon First Partners Illustration Collection Series 2",
+      "price": 349.0
+    },
+    "webhallen:398336": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME4 Chaos Rising Elite Trainer Box",
+      "price": 849.0
+    },
+    "webhallen:398340": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME5 Pitch Black Booster Display (36 boosters)",
+      "price": 2299.0
+    },
+    "webhallen:398352": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME4 Chaos Rising Booster Display",
+      "price": 2299.0
+    },
+    "webhallen:398353": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME4 Chaos Rising Booster Bundle",
+      "price": 499.0
+    },
+    "webhallen:399534": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Tin Summer EX Mega Clefable",
+      "price": 399.0
+    },
+    "webhallen:399538": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Lumiose City Mini Tin Salamence/Litleo",
+      "price": 189.0
+    },
+    "webhallen:399539": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Tin Summer EX Mega Gengar",
+      "price": 399.0
+    },
+    "webhallen:400145": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Mega Forces Tin Mega Dragonite Ex",
+      "price": 399.0
+    },
+    "webhallen:400146": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Mega Forces Tin Mega Darkai Ex",
+      "price": 399.0
+    },
+    "webhallen:400148": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Mega Forces Tin Mega Zeraora Ex",
+      "price": 399.0
+    },
+    "webhallen:401988": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Mini Tins",
+      "price": 249.0
+    },
+    "webhallen:401989": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Booster Bundle",
+      "price": 699.0
+    },
+    "webhallen:401990": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration 2-Pack Blister",
+      "price": 199.0
+    },
+    "webhallen:401992": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Sylveon Tin",
+      "price": 499.0
+    },
+    "webhallen:401994": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Greninja Tin",
+      "price": 499.0
+    },
+    "webhallen:401997": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Sylveon Ex Box",
+      "price": 499.0
+    },
+    "webhallen:401998": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Greninja Ex Box",
+      "price": 499.0
+    },
+    "webhallen:401999": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Binder Collection",
+      "price": 749.0
+    },
+    "webhallen:402000": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Elite Trainer Box",
+      "price": 999.0
+    },
+    "webhallen:402001": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon 30th Celebration Poster Collection",
+      "price": 399.0
+    },
+    "webhallen:402558": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME06 Delta Reign Elite Trainer Box",
+      "price": 849.0
+    },
+    "webhallen:402562": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon Meowth Deck Crafter's Collection",
+      "price": 179.0
+    },
+    "webhallen:402566": {
+      "buyable": false,
+      "level": null,
+      "name": "Pokemon ME06 Delta Reign Booster Display",
+      "price": 2299.0
+    }
+  },
+  "shops_seen": [
+    "Alara Games",
+    "watch:Muxus, Goblin Grandee",
+    "Speltrollet",
+    "Dragon's Lair",
+    "Manatorsk"
+  ],
+  "webhallen_error": null
+}
